@@ -1,4 +1,5 @@
 pluginManagement {
+  includeBuild("build-logic")
   repositories {
     google {
       content {
@@ -33,3 +34,8 @@ plugins {
 rootProject.name = "Portfolio"
 
 include(":app")
+include(":core:designsystem")
+include(":feature:home")
+include(":feature:projects")
+include(":feature:articles")
+include(":feature:series")

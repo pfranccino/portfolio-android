@@ -16,10 +16,21 @@ junit5 = "5.14.4"
 kotlin = "2.3.20"
 kotlinxSerialization = "1.11.0"
 navigation = "2.9.8"
+hilt = "2.60.1"
+ksp = "2.3.14"
+androidxHilt = "1.3.0"
+androidxDatastore = "1.3.0"
+androidxCoreSplashscreen = "1.2.0"
+androidxBrowser = "1.10.0"
+javaxInject = "1"
 
 [libraries]
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidxActivity" }
+androidx-browser = { module = "androidx.browser:browser", version.ref = "androidxBrowser" }
+androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "androidxCoreSplashscreen" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "androidxDatastore" }
+androidx-hilt-lifecycle-viewmodel-compose = { module = "androidx.hilt:hilt-lifecycle-viewmodel-compose", version.ref = "androidxHilt" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3"}
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui"}
@@ -36,6 +47,10 @@ androidx-test-core = { module = "androidx.test:core", version.ref = "androidxTes
 androidx-test-ext-junit = { module = "androidx.test.ext:junit", version.ref = "androidxTestExt" }
 androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidxTestEspresso" }
 androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidxTestRunner" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
+hilt-compiler ={ module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
+javax-inject = { module = "javax.inject:javax.inject", version.ref = "javaxInject" }
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junit5" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
@@ -46,11 +61,15 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 compose-compiler-gradlePlugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
+hilt-gradlePlugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
+ksp-gradlePlugin = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version.ref = "ksp" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 pfranccino-android-application = { id = "dev.pfranccino.android.application" }
@@ -59,3 +78,4 @@ pfranccino-kotlin = { id = "dev.pfranccino.kotlin" }
 pfranccino-compose = { id = "dev.pfranccino.compose" }
 pfranccino-material = { id = "dev.pfranccino.material" }
 pfranccino-tests = { id = "dev.pfranccino.tests" }
+pfranccino-hilt = { id = "dev.pfranccino.hilt" }

@@ -2,6 +2,7 @@ package dev.pfranccino.portfolio.core.designsystem.component
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
@@ -55,6 +56,8 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import dev.pfranccino.portfolio.core.designsystem.theme.PortfolioTheme
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
 @Immutable
 data class BottomBarItem(
@@ -69,7 +72,7 @@ private const val NoFocus = -1
 
 /** Foco de teclado: borde en `ink` en claro y en `accent` en oscuro. El tema se lee del fondo. */
 @Composable
-private fun focusBorderColor(): Color =
+internal fun focusBorderColor(): Color =
   if (MaterialTheme.colorScheme.background.luminance() < 0.5f) {
     PortfolioTheme.colors.accent
   } else {
@@ -80,6 +83,26 @@ private class FocusTracker {
   var focusedIndex = NoFocus
   var restoreIndex = NoFocus
   var lastIsGrid: Boolean? = null
+}
+
+/** Escribe en [target] lo que le llega, pero no publica nada: quien lo observa no ve interacciones. */
+private class QuietInteractionSource(private val target: MutableInteractionSource) : MutableInteractionSource {
+  override val interactions: Flow<Interaction> = emptyFlow()
+  override suspend fun emit(interaction: Interaction) = target.emit(interaction)
+  override fun tryEmit(interaction: Interaction): Boolean = target.tryEmit(interaction)
+}
+
+/** Opacidad de la capa de estado: 10 % al tocar o con foco, 8 % con hover y nada en reposo. */
+@Composable
+internal fun rememberStateLayer(interactionSource: MutableInteractionSource): Float {
+  val pressed by interactionSource.collectIsPressedAsState()
+  val hovered by interactionSource.collectIsHoveredAsState()
+  val focused by interactionSource.collectIsFocusedAsState()
+  return when {
+    pressed || focused -> 0.10f
+    hovered -> 0.08f
+    else -> 0f
+  }
 }
 
 /** Insets de la barra: abajo y a los lados, con barras del sistema y recorte de pantalla. Sin arriba y sin teclado. */
@@ -168,7 +191,14 @@ private fun RowBar(
     items.forEachIndexed { index, item ->
       val selected = index == selectedIndex
       var hasFocus by remember { mutableStateOf(false) }
+      // Capa de estado propia, con esquinas de 2 dp: el ítem de Material dibuja la suya en píldora,
+      // así que se le entrega una fuente que reenvía las interacciones sin publicarlas a su ripple.
+      val interactionSource = remember { MutableInteractionSource() }
+      val itemInteractionSource = remember(interactionSource) { QuietInteractionSource(interactionSource) }
+      val stateLayer = rememberStateLayer(interactionSource)
+      val layerColor = if (selected) PortfolioTheme.colors.onAccent else MaterialTheme.colorScheme.onSurface
       NavigationBarItem(
+        interactionSource = itemInteractionSource,
         modifier = Modifier
           .focusRequester(requesters[index])
           .onFocusChanged {
@@ -190,7 +220,8 @@ private fun RowBar(
             modifier = Modifier
               .size(width = 64.dp, height = 32.dp)
               .clip(MaterialTheme.shapes.extraSmall)
-              .background(if (selected) PortfolioTheme.colors.accent else Color.Transparent),
+              .background(if (selected) PortfolioTheme.colors.accent else Color.Transparent)
+              .drawBehind { drawRect(layerColor.copy(alpha = stateLayer)) },
             contentAlignment = Alignment.Center,
           ) {
             Icon(painter = painterResource(item.icon), contentDescription = null)
@@ -267,14 +298,8 @@ private fun GridCell(
     if (selected) PortfolioTheme.colors.onAccent else MaterialTheme.colorScheme.onSurfaceVariant
   // Capa de estado propia: solo al tocar (10 %), hover (8 %) y foco (10 %); en reposo no hay capa.
   val interactionSource = remember { MutableInteractionSource() }
-  val pressed by interactionSource.collectIsPressedAsState()
-  val hovered by interactionSource.collectIsHoveredAsState()
   val focused by interactionSource.collectIsFocusedAsState()
-  val layerAlpha = when {
-    pressed || focused -> 0.10f
-    hovered -> 0.08f
-    else -> 0f
-  }
+  val layerAlpha = rememberStateLayer(interactionSource)
   val layerColor = if (selected) PortfolioTheme.colors.onAccent else MaterialTheme.colorScheme.onSurface
   Row(
     modifier = modifier

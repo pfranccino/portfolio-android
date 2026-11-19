@@ -4,6 +4,7 @@ import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.Easing
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Shapes
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 private val Corner = RoundedCornerShape(2.dp)
@@ -40,4 +41,13 @@ object PortfolioMotion {
 
   /** Cambio de pestaña: la pantalla que entra aparece en 200 ms. */
   const val TabEnterMillis = 200
+
+  /** Entrar a un detalle: el detalle entra y aparece en 300 ms. */
+  const val DetailEnterMillis = 300
+
+  /** Entrar a un detalle: la pantalla anterior se desvanece en 200 ms. */
+  const val DetailExitMillis = 200
+
+  /** Entrar a un detalle: el detalle entra desde 30 dp a la derecha. Es un `Dp`: se pasa a píxeles con la densidad. */
+  val DetailOffset: Dp = 30.dp
 }

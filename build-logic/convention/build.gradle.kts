@@ -8,6 +8,8 @@ dependencies {
   compileOnly(libs.android.gradlePlugin)
   compileOnly(libs.kotlin.gradlePlugin)
   compileOnly(libs.compose.compiler.gradlePlugin)
+  compileOnly(libs.hilt.gradlePlugin)
+  compileOnly(libs.ksp.gradlePlugin)
 }
 
 gradlePlugin {
@@ -35,6 +37,10 @@ gradlePlugin {
     register("tests") {
       id = "dev.pfranccino.tests"
       implementationClass = "TestsConventionPlugin"
+    }
+    register("hilt") {
+      id = "dev.pfranccino.hilt"
+      implementationClass = "HiltConventionPlugin"
     }
   }
 }

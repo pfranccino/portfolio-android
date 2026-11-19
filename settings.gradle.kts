@@ -34,8 +34,12 @@ plugins {
 rootProject.name = "Portfolio"
 
 include(":app")
+include(":core:common")
 include(":core:designsystem")
+include(":core:testing")
+include(":core:ui")
 include(":feature:home")
+include(":feature:settings")
 include(":feature:projects")
 include(":feature:articles")
 include(":feature:series")

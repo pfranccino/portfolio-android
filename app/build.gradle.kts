@@ -3,6 +3,7 @@ plugins {
   alias(libs.plugins.pfranccino.compose)
   alias(libs.plugins.pfranccino.material)
   alias(libs.plugins.pfranccino.tests)
+  alias(libs.plugins.pfranccino.hilt)
 }
 
 android {
@@ -19,6 +20,9 @@ android {
       proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
     }
   }
+  androidResources {
+    generateLocaleConfig = true
+  }
   buildFeatures {
     aidl = false
     buildConfig = false
@@ -28,13 +32,16 @@ android {
 
 dependencies {
   implementation(project(":core:designsystem"))
+  implementation(project(":core:common"))
   implementation(project(":feature:home"))
+  implementation(project(":feature:settings"))
   implementation(project(":feature:projects"))
   implementation(project(":feature:articles"))
   implementation(project(":feature:series"))
 
   // Core Android dependencies
   implementation(libs.androidx.core.ktx)
+  implementation(libs.androidx.core.splashscreen)
   implementation(libs.androidx.lifecycle.runtime.ktx)
   implementation(libs.androidx.activity.compose)
 

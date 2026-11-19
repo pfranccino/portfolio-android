@@ -3,4 +3,10 @@
     <style name="Theme.Portfolio" parent="android:Theme.Material.NoActionBar">
         <item name="android:windowBackground">#121416</item>
     </style>
+
+    <style name="Theme.Portfolio.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#121416</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/Theme.Portfolio</item>
+    </style>
 </resources>

@@ -28,6 +28,7 @@ import dev.pfranccino.portfolio.core.designsystem.component.BottomBarItem
 import dev.pfranccino.portfolio.core.designsystem.component.PortfolioBottomBar
 import dev.pfranccino.portfolio.core.designsystem.icon.PortfolioIcons
 import dev.pfranccino.portfolio.core.designsystem.theme.PortfolioMotion
+import dev.pfranccino.portfolio.core.designsystem.theme.rememberPortfolioDetailTransitions
 import dev.pfranccino.portfolio.feature.articles.navigation.ArticlesGraph
 import dev.pfranccino.portfolio.feature.articles.navigation.articlesGraph
 import dev.pfranccino.portfolio.feature.home.navigation.HomeGraph
@@ -35,6 +36,9 @@ import dev.pfranccino.portfolio.feature.home.navigation.homeGraph
 import dev.pfranccino.portfolio.feature.projects.navigation.ProjectsGraph
 import dev.pfranccino.portfolio.feature.projects.navigation.projectsGraph
 import dev.pfranccino.portfolio.feature.series.navigation.SeriesGraph
+import dev.pfranccino.portfolio.feature.settings.navigation.SettingsGraph
+import dev.pfranccino.portfolio.feature.settings.navigation.navigateToSettings
+import dev.pfranccino.portfolio.feature.settings.navigation.settingsGraph
 import dev.pfranccino.portfolio.feature.series.navigation.seriesGraph
 import kotlin.reflect.KClass
 
@@ -94,22 +98,38 @@ fun PortfolioApp(navController: NavHostController = rememberNavController()) {
       }
     },
   ) { innerPadding ->
+    val detail = rememberPortfolioDetailTransitions()
     NavHost(
       navController = navController,
       startDestination = HomeGraph,
       modifier = Modifier.padding(innerPadding),
-      enterTransition = { TabEnterTransition },
-      exitTransition = { TabExitTransition },
-      popEnterTransition = { TabEnterTransition },
-      popExitTransition = { TabExitTransition },
+      enterTransition = {
+        if (targetState.destination.isFullScreenGraph()) detail.enter else TabEnterTransition
+      },
+      exitTransition = {
+        if (targetState.destination.isFullScreenGraph()) detail.exit else TabExitTransition
+      },
+      popEnterTransition = {
+        if (initialState.destination.isFullScreenGraph()) detail.popEnter else TabEnterTransition
+      },
+      popExitTransition = {
+        if (initialState.destination.isFullScreenGraph()) detail.popExit else TabExitTransition
+      },
     ) {
-      homeGraph()
+      homeGraph(onOpenSettings = { navController.navigateToSettings() })
       projectsGraph()
       articlesGraph()
       seriesGraph()
+      settingsGraph(onBack = { navController.popBackStack() })
     }
   }
 }
+
+/** Grafos que se abren a pantalla completa, fuera de las pestañas, y usan las transiciones de detalle. */
+private val FullScreenGraphs: List<KClass<*>> = listOf(SettingsGraph::class)
+
+private fun NavDestination.isFullScreenGraph(): Boolean =
+  hierarchy.any { node -> FullScreenGraphs.any { node.hasRoute(it) } }
 
 /** La barra solo se muestra en la pantalla inicial de alguno de los cuatro grafos. */
 private fun NavDestination?.isTopLevelRoot(): Boolean {

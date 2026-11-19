@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feature_settings_title">Ajustes</string>
+    <string name="feature_settings_back">Volver</string>
+    <string name="feature_settings_language_title">Idioma</string>
+    <string name="feature_settings_theme_title">Tema</string>
+    <string name="feature_settings_about_title">Acerca de</string>
+    <string name="feature_settings_option_system">Sistema</string>
+    <string name="feature_settings_option_light">Claro</string>
+    <string name="feature_settings_option_dark">Oscuro</string>
+    <!-- Nombres propios de cada idioma: no se traducen. -->
+    <string name="feature_settings_language_name_spanish" translatable="false">Español</string>
+    <string name="feature_settings_language_name_english" translatable="false">English</string>
+    <string name="feature_settings_like_phone">%1$s, como tu teléfono</string>
+    <string name="feature_settings_theme_save_error">No pude guardar el tema.</string>
+    <string name="feature_settings_version">Versión</string>
+    <string name="feature_settings_source_code">Código fuente</string>
+    <string name="feature_settings_source_code_url" translatable="false">github.com/pfranccino/portfolio-android</string>
+    <string name="feature_settings_source_code_description">Código fuente, se abre en el navegador</string>
+</resources>

@@ -3,6 +3,7 @@ package dev.pfranccino.portfolio.core.designsystem.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.heightIn
@@ -10,14 +11,11 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
@@ -30,6 +28,9 @@ import dev.pfranccino.portfolio.core.designsystem.theme.PortfolioSpacing
  *
  * Con [onBackClick] muestra la flecha para volver; entonces [backContentDescription] es obligatoria
  * en la práctica, porque la flecha va sola.
+ *
+ * [actions] va al final de la barra (por ejemplo un `IconButton`). El título ocupa el ancho que
+ * sobra y se parte en líneas.
  */
 @Composable
 fun PortfolioTopAppBar(
@@ -37,6 +38,7 @@ fun PortfolioTopAppBar(
   modifier: Modifier = Modifier,
   onBackClick: (() -> Unit)? = null,
   backContentDescription: String? = null,
+  actions: @Composable RowScope.() -> Unit = {},
 ) {
   Row(
     modifier = modifier
@@ -53,19 +55,20 @@ fun PortfolioTopAppBar(
     horizontalArrangement = Arrangement.spacedBy(8.dp),
   ) {
     if (onBackClick != null) {
-      IconButton(onClick = onBackClick) {
-        Icon(
-          painter = painterResource(PortfolioIcons.ArrowBack),
-          contentDescription = backContentDescription,
-          tint = MaterialTheme.colorScheme.onBackground,
-        )
-      }
+      PortfolioIconButton(
+        onClick = onBackClick,
+        contentDescription = backContentDescription.orEmpty(),
+        icon = PortfolioIcons.ArrowBack,
+      )
     }
     Text(
       text = title,
       style = MaterialTheme.typography.headlineMedium,
       color = MaterialTheme.colorScheme.onBackground,
-      modifier = Modifier.semantics { heading() },
+      modifier = Modifier
+        .weight(1f)
+        .semantics { heading() },
     )
+    actions()
   }
 }

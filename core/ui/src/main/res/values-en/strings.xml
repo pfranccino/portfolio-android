@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="external_link_no_app">I couldn\'t find an app to open the link.</string>
+    <string name="external_link_copy">Copy</string>
+</resources>

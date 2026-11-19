@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feature_settings_title">Settings</string>
+    <string name="feature_settings_back">Back</string>
+    <string name="feature_settings_language_title">Language</string>
+    <string name="feature_settings_theme_title">Theme</string>
+    <string name="feature_settings_about_title">About</string>
+    <string name="feature_settings_option_system">System</string>
+    <string name="feature_settings_option_light">Light</string>
+    <string name="feature_settings_option_dark">Dark</string>
+    <string name="feature_settings_like_phone">%1$s, like your phone</string>
+    <string name="feature_settings_theme_save_error">Couldn\'t save the theme.</string>
+    <string name="feature_settings_version">Version</string>
+    <string name="feature_settings_source_code">Source code</string>
+    <string name="feature_settings_source_code_description">Source code, opens in the browser</string>
+</resources>
